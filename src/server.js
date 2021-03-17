@@ -2,13 +2,15 @@ require("express-async-errors");
 const express = require("express");
 const cors = require("cors");
 const TreatExceptionMiddleware = require("./middlewares/TreatExceptionMiddleware");
+const rabbitMQ = require("@joinf/rabbitmq");
+const HistoricQueue = require("./queues/HistoricQueue");
 
 const routes = require("./routes");
-
 class Server {
   constructor() {
     this.server = express();
 
+    this.initializeBroker();
     this.middlewares();
     this.routes();
     this.exceptionHandler();
@@ -19,6 +21,11 @@ class Server {
     this.server.use(cors());
     this.server.use(express.json({ limit: "50mb" }));
     this.server.use(express.urlencoded({ limit: "50mb", extended: true }));
+  }
+
+  async initializeBroker() {
+    await rabbitMQ.init("amqp://localhost");
+    rabbitMQ.consumer.listen("historics", HistoricQueue);
   }
 
   routes() {
