@@ -16,8 +16,10 @@ routes.post("/api/validateToken", AuthenticationColler.validateToken);
 
 routes.use("/api", AuthMiddleware);
 
-routes.get("/api/user", UserController.get);
+routes.get("/api/users", UserController.get);
+routes.put("/api/users", UserController.update);
 
+routes.get("/api/futures", FutureController.list);
 routes.post("/api/futures/:movieId", MovieMiddleware, FutureController.store);
 routes.delete(
   "/api/futures/:movieId",

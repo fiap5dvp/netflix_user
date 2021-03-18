@@ -45,6 +45,24 @@ class FutureModel {
 
     await db.execute(`delete from future where id = $1`, [id]);
   }
+
+  async list(userId) {
+    const response = await db.execute(
+      `select * from future where user_id = $1`,
+      [userId]
+    );
+
+    return response.rows;
+  }
+
+  async updateMovie(movieId, props) {
+    const { name, detail } = props;
+
+    await db.execute(
+      `update future set movie_name = $1, movie_detail=$2 where movie_id = $3`,
+      [name, detail, movieId]
+    );
+  }
 }
 
 module.exports = new FutureModel();

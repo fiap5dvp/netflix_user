@@ -7,14 +7,9 @@ class LikeModel {
       [userId, movieId]
     );
 
-    if (hasExists.rowCount > 0)
-      throw {
-        status: 400,
-        message: "Filme já está na lista dos curtidos",
-      };
-
-    await db.execute(
-      `insert into likes (
+    if (hasExists.rowCount === 0) {
+      await db.execute(
+        `insert into likes (
         user_id, 
         movie_id,
         movie_name,
@@ -25,8 +20,9 @@ class LikeModel {
         $3,
         $4
       )`,
-      [userId, movieId, movieName, movieDetail]
-    );
+        [userId, movieId, movieName, movieDetail]
+      );
+    }
   }
 
   async remove({ userId, movieId }) {
@@ -35,15 +31,20 @@ class LikeModel {
       [userId, movieId]
     );
 
-    if (likeMovie.rowCount <= 0)
-      throw {
-        status: 400,
-        message: "Filme não está na lista dos curtidos",
-      };
+    if (likeMovie.rowCount > 0) {
+      const id = likeMovie.rows[0].id;
 
-    const id = likeMovie.rows[0].id;
+      await db.execute(`delete from likes where id = $1`, [id]);
+    }
+  }
 
-    await db.execute(`delete from likes where id = $1`, [id]);
+  async updateMovie(movieId, props) {
+    const { name, detail } = props;
+
+    await db.execute(
+      `update likes set movie_name = $1, movie_detail=$2 where movie_id = $3`,
+      [name, detail, movieId]
+    );
   }
 }
 

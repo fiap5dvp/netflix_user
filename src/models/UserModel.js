@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const { promisify } = require("util");
 const db = require("../services/DatabaseService");
+const rabbitMQ = require("@joinf/rabbitmq");
 
 class UserModel {
   async isValidPassword(name, password) {
@@ -44,6 +45,27 @@ class UserModel {
     const user = response.rows[0];
 
     return user;
+  }
+
+  async update(id, props) {
+    const response = await db.execute("Select id from users where id = $1", [
+      id,
+    ]);
+
+    if (response.rows.length <= 0)
+      throw {
+        message: "Usuário não encontrado",
+        status: 401,
+      };
+
+    const { name } = props;
+
+    await db.execute("Update users set name = $1 where id = $2", [name, id]);
+
+    rabbitMQ.producer.publish("netflix-users-topic", "rk-alter-user", {
+      id,
+      props,
+    });
   }
 
   async generateToken(name) {

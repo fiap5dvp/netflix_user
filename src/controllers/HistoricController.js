@@ -6,7 +6,7 @@ class HistoricController {
 
     const histories = await HistoricModel.list(userId);
 
-    res.send(histories);
+    res.send(histories.rows);
   }
 }
 

@@ -24,6 +24,14 @@ class FutureController {
 
     return res.sendStatus(201);
   }
+
+  async list(req, res) {
+    const { userId } = req;
+
+    const futures = await FutureModel.list(userId);
+
+    return res.send(futures);
+  }
 }
 
 module.exports = new FutureController();

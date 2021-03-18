@@ -3,7 +3,9 @@ const express = require("express");
 const cors = require("cors");
 const TreatExceptionMiddleware = require("./middlewares/TreatExceptionMiddleware");
 const rabbitMQ = require("@joinf/rabbitmq");
+
 const HistoricQueue = require("./queues/HistoricQueue");
+const AlterMovieQueue = require("./queues/AlterMovieQueue");
 
 const routes = require("./routes");
 class Server {
@@ -26,6 +28,7 @@ class Server {
   async initializeBroker() {
     await rabbitMQ.init("amqp://localhost");
     rabbitMQ.consumer.listen("historics", HistoricQueue);
+    rabbitMQ.consumer.listen("alter-movie", AlterMovieQueue);
   }
 
   routes() {

@@ -2,8 +2,9 @@ const db = require("../services/DatabaseService");
 
 class HistoricModel {
   async list(userId) {
-    await db.execute(
-      `select   movie_id, 
+    const response = await db.execute(
+      `select   distinct
+                movie_id, 
                 movie_name, 
                 movie_detail 
       from      historics
@@ -11,6 +12,8 @@ class HistoricModel {
       order by  movie_name`,
       [userId]
     );
+
+    return response;
   }
   async add({ userId, movieId, movieName, movieDetail }) {
     await db.execute(
@@ -28,6 +31,15 @@ class HistoricModel {
         $5
       )`,
       [userId, movieId, movieName, movieDetail, new Date()]
+    );
+  }
+
+  async updateMovie(movieId, props) {
+    const { name, detail } = props;
+
+    await db.execute(
+      `update historics set movie_name = $1, movie_detail=$2 where movie_id = $3`,
+      [name, detail, movieId]
     );
   }
 }
