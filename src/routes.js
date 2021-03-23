@@ -27,6 +27,7 @@ routes.delete(
   FutureController.delete
 );
 
+routes.get("/api/likes", LikeController.list);
 routes.post("/api/likes/:movieId", MovieMiddleware, LikeController.store);
 routes.delete("/api/likes/:movieId", MovieMiddleware, LikeController.delete);
 

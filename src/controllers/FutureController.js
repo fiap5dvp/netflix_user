@@ -9,6 +9,7 @@ class FutureController {
       movieId: movie.id,
       movieName: movie.name,
       movieDetail: movie.detail,
+      moviePoster: movie.poster,
     });
 
     return res.sendStatus(201);

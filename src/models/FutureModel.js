@@ -1,7 +1,7 @@
 const db = require("../services/DatabaseService");
 
 class FutureModel {
-  async add({ userId, movieId, movieName, movieDetail }) {
+  async add({ userId, movieId, movieName, movieDetail, moviePoster }) {
     const hasExists = await db.execute(
       `select * from future where user_id = $1 and movie_id = $2`,
       [userId, movieId]
@@ -18,14 +18,16 @@ class FutureModel {
         user_id, 
         movie_id,
         movie_name,
-        movie_detail
+        movie_detail,
+        movie_poster
       ) values (
         $1,
         $2,
         $3,
-        $4
+        $4,
+        $5
       )`,
-      [userId, movieId, movieName, movieDetail]
+      [userId, movieId, movieName, movieDetail, moviePoster]
     );
   }
 
@@ -48,7 +50,7 @@ class FutureModel {
 
   async list(userId) {
     const response = await db.execute(
-      `select * from future where user_id = $1`,
+      `select movie_id as id, movie_name as name, movie_detail as detail, movie_poster as poster from future where user_id = $1`,
       [userId]
     );
 

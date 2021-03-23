@@ -1,6 +1,11 @@
 const LikeModel = require("../models/LikeModel");
 
 class LikeController {
+  async list(req, res) {
+    const movies = await LikeModel.list(req.userId);
+    return res.send(movies);
+  }
+
   async store(req, res) {
     const { userId, movie } = req;
 
@@ -9,6 +14,7 @@ class LikeController {
       movieId: movie.id,
       movieDetail: movie.detail,
       movieName: movie.name,
+      moviePoster: movie.poster,
     });
 
     return res.sendStatus(201);
