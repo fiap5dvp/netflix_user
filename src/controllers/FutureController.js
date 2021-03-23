@@ -12,7 +12,7 @@ class FutureController {
       moviePoster: movie.poster,
     });
 
-    return res.sendStatus(201);
+    return res.sendStatus(204);
   }
 
   async delete(req, res) {
@@ -23,7 +23,7 @@ class FutureController {
       movieId: movie.id,
     });
 
-    return res.sendStatus(201);
+    return res.sendStatus(204);
   }
 
   async list(req, res) {

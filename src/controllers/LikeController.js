@@ -17,7 +17,7 @@ class LikeController {
       moviePoster: movie.poster,
     });
 
-    return res.sendStatus(201);
+    return res.sendStatus(204);
   }
 
   async delete(req, res) {
@@ -28,7 +28,7 @@ class LikeController {
       movieId: movie.id,
     });
 
-    return res.sendStatus(201);
+    return res.sendStatus(204);
   }
 }
 

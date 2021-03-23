@@ -11,7 +11,7 @@ class UserController {
 
     await UserModel.update(req.userId, { name });
 
-    return res.sendStatus(200);
+    return res.sendStatus(204);
   }
 }
 

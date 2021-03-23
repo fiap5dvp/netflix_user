@@ -7,7 +7,7 @@ class CatalogService {
   async getMovie(movieId) {
     try {
       const response = await axios({
-        url: `${process.env.CATALOG_SERVICE}/api/movies/${movieId}`,
+        url: `${process.env.CATALOG_SERVICE_URL}/api/movies/${movieId}`,
         method: "GET",
         headers: {
           authorization: `Bearer ${this.token}`,
@@ -19,7 +19,7 @@ class CatalogService {
     } catch (error) {
       throw {
         service: "Catalog",
-        baseUrl: process.env.CATALOG_SERVICE,
+        baseUrl: process.env.CATALOG_SERVICE_URL,
         error,
       };
     }

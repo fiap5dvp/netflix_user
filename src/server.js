@@ -26,7 +26,8 @@ class Server {
   }
 
   async initializeBroker() {
-    await rabbitMQ.init("amqp://localhost");
+    await rabbitMQ.init(process.env.RABBIT_MQ_URL);
+
     rabbitMQ.consumer.listen("historics", HistoricQueue);
     rabbitMQ.consumer.listen("alter-movie", AlterMovieQueue);
   }
