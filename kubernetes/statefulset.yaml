@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: user-database
+spec:
+  selector:
+    matchLabels:
+      app: user-database
+  serviceName: user-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: user-database
+    spec:
+      containers:
+        - name: user-database
+          image: lucaslimas/fiap-netiflix:user
+          volumeMounts:
+            - name: user-db-disk
+              mountPath: /var/lib/userql/data
+  volumeClaimTemplates:
+    - metadata:
+        name: user-db-disk
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 10Gi
