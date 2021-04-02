@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: user-cm
+data:
+  .env: |
+    SERVICE_NAME=user
+    HOST_NAME=$(hostname)
+    PORT=3000
+    HELTH_CHECK_URL="/status"
+    EUREKA_HOST=eureka.eureka.svc.cluster.local
+    EUREKA_PORT=8761
