@@ -5,7 +5,8 @@
   "author": "5dvp-t4",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon src/index"
+    "dev": "nodemon src/index",
+    "start": "node src/index"
   },
   "dependencies": {
     "@joinf/rabbitmq": "^1.0.1",
